@@ -1,0 +1,15 @@
+%this function returns total energy of a given 3D lattice with arbitrary size
+% and spin pattern in some magnetic field
+%field 
+function E=energy(S,h)
+%fining neighbor interaction energy
+neib(1)=sum(sum(sum(xor(S,circshift(S,[1,0,0])))));
+neib(2)=sum(sum(sum(xor(S,circshift(S,[-1,0,0])))));
+neib(3)=sum(sum(sum(xor(S,circshift(S,[0,1,0])))));
+neib(4)=sum(sum(sum(xor(S,circshift(S,[0,-1,0])))));
+neib(5)=sum(sum(sum(xor(S,circshift(S,[0,0,1])))));
+neib(6)=sum(sum(sum(xor(S,circshift(S,[0,0,-1])))));
+Eint=2*(sum(neib)-3*length(S)^3);
+%energy from external field
+Efield=-h*(2*sum(S(:))-length(S)^3);
+E=Eint+Efield;
